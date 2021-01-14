@@ -1,0 +1,72 @@
+.brand-circles-container {
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.brand-circles {
+  left: 0;
+  opacity: 0.5;
+  position: absolute;
+  top: 0;
+  width: 40%;
+
+  @media all and (max-width: $bp-small-3) {
+    width: 80%;
+  }
+
+  svg {
+    fill: $accent;
+  }
+}
+
+.brand-text-wrapper,
+.brand-text {
+  svg {
+    fill: $white;
+  }
+}
+
+.brand-text-wrapper {
+  height: 20%;
+  max-width: 900px;
+  min-height: 13em;
+  min-width: 400px;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  top: 25%;
+  width: 60%;
+}
+
+.brand-text-wrapper-inner {
+  height: 100%;
+  position: relative;
+  width: 100%;
+}
+
+.brand-text {
+  height: 100%;
+  position: absolute;
+  right: -30px;
+  width: 100%;
+}
+
+.scaling-svg-container {
+  height: auto;
+  padding: 0;
+  padding-bottom: 100%;
+  position: relative;
+  width: 100%;
+}
+
+.scaling-svg-container > svg {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}

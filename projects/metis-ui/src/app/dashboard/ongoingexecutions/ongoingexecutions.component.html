@@ -1,0 +1,80 @@
+<h3>{{ 'ongoingExecutions' | translate }}</h3>
+<div class="ongoing-executions">
+  <span class="grid-header">
+    {{ 'workflow' | translate }}
+  </span>
+  <span class="grid-header">
+    {{ 'overallProgress' | translate }}
+  </span>
+
+  <ng-container *ngIf="!runningExecutions || runningExecutions.length === 0">
+    <span class="no-content-message">
+      {{ 'noOngoing' | translate }}
+    </span>
+  </ng-container>
+
+  <ng-container *ngIf="runningExecutions && runningExecutions.length > 0">
+    <ng-container *ngFor="let ongoing of runningExecutions; trackBy: byId">
+      <div
+        class="status grid-cell labelled-orb row-start"
+        [ngClass]="{ active: selectedExecutionDsId === ongoing.id }"
+      >
+        <span
+          class="{{ ongoing.currentPlugin.pluginType }} orb-status {{
+            getPluginStatusClass(ongoing.currentPlugin)
+          }}"
+        ></span>
+        <span>
+          <span
+            class="tooltip"
+            title="{{ 'doubleClickToCopy' | translate }}"
+            (dblclick)="
+              copyInformation(
+                'plugin',
+                ongoing.currentPlugin.externalTaskId,
+                ongoing.currentPlugin.id
+              )
+            "
+            >{{ ongoing.currentPlugin.pluginType | renameWorkflow }}</span
+          >
+          <a
+            [routerLink]="['/dataset', 'edit', ongoing.datasetId]"
+            class="workflowname"
+            target="_blank"
+            >{{ ongoing.datasetId }}</a
+          >
+        </span>
+      </div>
+      <div class="progress grid-cell">
+        <div class="progress-status">
+          <span class="progress-percentage capitalise"
+            >{{ 'step' | translate }} {{ ongoing.currentPluginIndex + 1 }}/{{
+              ongoing.metisPlugins.length
+            }}</span
+          >
+        </div>
+        <div class="progressbar">
+          <div class="progressbar-done" [style.width.%]="calcProgress(ongoing)"></div>
+        </div>
+      </div>
+      <nav class="grid-cell ctrls row-divider">
+        <ul>
+          <li *ngIf="canCancelWorkflow(ongoing)">
+            <a
+              class="cancel-btn svg-icon-cancel"
+              title="{{ 'cancel' | translate }}"
+              (click)="cancelWorkflow(ongoing.id, ongoing.datasetId, ongoing.datasetName!)"
+            ></a>
+          </li>
+          <li *ngIf="ongoing.workflowStatus !== 'INQUEUE'">
+            <a
+              class="log-btn svg-icon-log"
+              title="{{ 'log' | translate }}"
+              (click)="showLog(ongoing)"
+            ></a>
+          </li>
+        </ul>
+      </nav>
+    </ng-container>
+  </ng-container>
+</div>

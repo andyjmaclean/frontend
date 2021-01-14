@@ -1,0 +1,268 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+
+  "projects": {
+    "m-ui": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/m-ui",
+      "sourceRoot": "projects/m-ui/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/m-ui",
+            "index": "projects/m-ui/src/index.html",
+            "main": "projects/m-ui/src/main.ts",
+            "polyfills": "projects/m-ui/src/polyfills.ts",
+            "tsConfig": "projects/m-ui/tsconfig.app.json",
+            "aot": true,
+            "assets": ["projects/m-ui/src/favicon.ico", "projects/m-ui/src/assets"],
+            "styles": ["projects/m-ui/src/styles.scss"],
+
+            "stylePreprocessorOptions": {
+              "includePaths": ["shared-styles"]
+            },
+
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/m-ui/src/environments/environment.ts",
+                  "with": "projects/m-ui/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "m-ui:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "m-ui:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "m-ui:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/m-ui/src/test.ts",
+            "polyfills": "projects/m-ui/src/polyfills.ts",
+            "tsConfig": "projects/m-ui/tsconfig.spec.json",
+            "karmaConfig": "projects/m-ui/karma.conf.js",
+            "assets": ["projects/m-ui/src/favicon.ico", "projects/m-ui/src/assets"],
+            "styles": ["projects/m-ui/src/styles.scss"],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/m-ui/tsconfig.app.json",
+              "projects/m-ui/tsconfig.spec.json",
+              "projects/m-ui/e2e/tsconfig.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/m-ui/e2e/protractor.conf.js",
+            "devServerTarget": "m-ui:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "m-ui:serve:production"
+            }
+          }
+        }
+      }
+    },
+
+    "tools": {
+      "projectType": "library",
+      "root": "projects/tools",
+      "sourceRoot": "projects/tools/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/tools/tsconfig.lib.json",
+            "project": "projects/tools/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/tools/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/tools/src/test.ts",
+            "tsConfig": "projects/tools/tsconfig.spec.json",
+            "karmaConfig": "projects/tools/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["projects/tools/tsconfig.lib.json", "projects/tools/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
+    "metis-ui": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/metis-ui",
+      "sourceRoot": "projects/metis-ui/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/metis-ui",
+            "index": "projects/metis-ui/src/index.html",
+            "main": "projects/metis-ui/src/main.ts",
+            "polyfills": "projects/metis-ui/src/polyfills.ts",
+            "tsConfig": "projects/metis-ui/tsconfig.app.json",
+            "aot": true,
+            "assets": ["projects/metis-ui/src/favicon.ico", "projects/metis-ui/src/assets"],
+            "styles": ["projects/metis-ui/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/metis-ui/src/environments/environment.ts",
+                  "with": "projects/metis-ui/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "metis-ui:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "metis-ui:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "metis-ui:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/metis-ui/src/test.ts",
+            "polyfills": "projects/metis-ui/src/polyfills.ts",
+            "tsConfig": "projects/metis-ui/tsconfig.spec.json",
+            "karmaConfig": "projects/metis-ui/karma.conf.js",
+            "assets": ["projects/metis-ui/src/favicon.ico", "projects/metis-ui/src/assets"],
+            "styles": ["projects/metis-ui/src/styles.scss"],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/metis-ui/tsconfig.app.json",
+              "projects/metis-ui/tsconfig.spec.json",
+              "projects/metis-ui/e2e/tsconfig.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/metis-ui/e2e/protractor.conf.js",
+            "devServerTarget": "metis-ui:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "metis-ui:serve:production"
+            }
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "metis-ui"
+}

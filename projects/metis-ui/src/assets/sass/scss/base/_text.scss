@@ -1,0 +1,9 @@
+.capitalise {
+  text-transform: capitalize;
+}
+
+.text-contained {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

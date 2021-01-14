@@ -1,0 +1,65 @@
+<ng-template #empty_date><span class="date-and-time"></span></ng-template>
+
+<app-notification
+  [notification]="notification"
+  (closed)="notification = undefined"
+></app-notification>
+
+<div class="table-grid history">
+  <div class="table-grid-header">
+    {{ 'workflowStep' | translate }}
+  </div>
+  <div class="table-grid-header">
+    {{ 'processedRecords' | translate }}
+  </div>
+  <div class="table-grid-header date-header">
+    {{ 'startTime' | translate }}
+  </div>
+  <div class="table-grid-header date-header">
+    {{ 'endTime' | translate }}
+  </div>
+  <div class="table-grid-header"></div>
+
+  <ng-container *ngFor="let wpe of allExecutions; trackBy: byId">
+    <div
+      *ngIf="!wpe.pluginExecution && wpe.execution; let execution"
+      class="sub-header workflow-head"
+    >
+      <div
+        class="head-text"
+        (dblclick)="copyInformation('execution', execution.id, execution.ecloudDatasetId)"
+        title="{{ 'doubleClickToCopy' | translate }}"
+      >
+        <span class="head-prefix">{{ 'workflowCreated' | translate }}</span>
+        {{ execution.createdDate | date: 'dd/MM/yyyy HH:mm' }}
+        <div class="head-right" *ngIf="getCancelledBy(execution) | async as canceller">
+          <span class="head-prefix">{{ 'cancelledBy' | translate }}</span>
+          {{ canceller }}
+        </div>
+      </div>
+    </div>
+
+    <ng-container *ngIf="wpe.pluginExecution; let plugin">
+      <app-executions-grid-data
+        #dataWrapper
+        [plugin]="wpe.pluginExecution"
+        [wpe]="wpe"
+        (openPreview)="goToPreview($event)"
+        (setReportMsg)="openFailReport($event)"
+      ></app-executions-grid-data>
+      <ng-content *ngTemplateOutlet="dataWrapper.gridDataTemplate"></ng-content>
+    </ng-container>
+  </ng-container>
+
+  <span
+    *ngIf="maxResultsReached"
+    class="table-grid-footer warning"
+    i18n="max result reached|max result reached message@@maxResultsReached"
+  >
+    You've reached the limit of the number of executions that can be displayed ({{ maxResults }})
+  </span>
+
+  <span *ngIf="hasMore" class="table-grid-footer" (click)="loadNextPage()">
+    <a class="load-more-btn">{{ 'loadMore' | translate }}</a>
+  </span>
+</div>

@@ -1,0 +1,34 @@
+<div class="dashboard-wrapper">
+  <div class="metis-welcome-message">
+    <p i18n="welcome message|welcomes the user by name@@welcomeMessage">
+      Welcome <strong>{{ userName }}</strong
+      >, let's ingest a world of Culture!
+    </p>
+  </div>
+
+  <div class="metis-dashboard">
+    <div class="metis-dashboard-left">
+      <app-dashboardactions></app-dashboardactions>
+    </div>
+  </div>
+
+  <div class="metis-dashboard" *ngIf="!runningIsFirstLoading">
+    <div class="metis-dashboard-left">
+      <app-ongoingexecutions
+        [showPluginLog]="showPluginLog"
+        [runningExecutions]="runningExecutions"
+        (setShowPluginLog)="showPluginLog = $event"
+        [selectedExecutionDsId]="selectedExecutionDsId"
+      ></app-ongoingexecutions>
+      <app-datasetlog
+        *ngIf="showPluginLog"
+        [showPluginLog]="showPluginLog"
+        (closed)="showPluginLog = undefined"
+      ></app-datasetlog>
+    </div>
+
+    <div class="metis-dashboard-right">
+      <app-executionsgrid (selectedSet)="setSelectedExecutionDsId($event)"></app-executionsgrid>
+    </div>
+  </div>
+</div>

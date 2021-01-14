@@ -1,0 +1,134 @@
+<app-load-animation
+  *ngIf="datasetIsLoading || harvestIsLoading || workflowIsLoading || lastExecutionIsLoading"
+  [resources]="{
+    dataset: !datasetData,
+    'harvest data': harvestIsLoading,
+    workflow: workflowIsLoading,
+    'last workflow': lastExecutionIsLoading
+  }"
+></app-load-animation>
+
+<app-reportsimple
+  [reportErrors]="reportErrors"
+  [reportMsg]="reportMsg"
+  [reportLoading]="reportLoading"
+  (closeReportSimple)="clearReport()"
+>
+</app-reportsimple>
+
+<div
+  class="dashboard-wrapper"
+  *ngIf="!datasetIsLoading && !harvestIsLoading && !workflowIsLoading && !lastExecutionIsLoading"
+>
+  <app-notification
+    *ngIf="notification"
+    [notification]="notification"
+    (closed)="notification = undefined"
+  ></app-notification>
+
+  <div *ngIf="datasetData">
+    <div class="dataset-collapse-blocks metis-dashboard">
+      <div class="metis-dashboard-left">
+        <app-generalinfo
+          [datasetData]="datasetData"
+          [harvestPublicationData]="harvestPublicationData"
+        ></app-generalinfo>
+      </div>
+      <div class="metis-dashboard-right">
+        <div
+          *ngIf="
+            publicationFitnessWarningAndClass(datasetData.publicationFitness);
+            let warningAndClass
+          "
+          class="{{ warningAndClass.cssClass }}"
+        >
+          {{ warningAndClass.warning | translate }}
+        </div>
+        <app-actionbar
+          [datasetId]="datasetId"
+          [datasetName]="datasetName"
+          [workflowData]="workflowData"
+          [lastExecutionData]="lastExecutionData"
+          [isStarting]="isStarting"
+          [showPluginLog]="showPluginLog"
+          (setShowPluginLog)="showPluginLog = $event"
+          (startWorkflow)="startWorkflow()"
+          (setReportMsg)="setReportMsg($event)"
+        ></app-actionbar>
+        <app-lastexecution
+          [datasetId]="datasetId"
+          [lastExecutionData]="lastExecutionData"
+          (setReportMsg)="setReportMsg($event)"
+        ></app-lastexecution>
+        <app-datasetlog
+          *ngIf="showPluginLog"
+          [showPluginLog]="showPluginLog"
+          (closed)="showPluginLog = undefined"
+        ></app-datasetlog>
+      </div>
+    </div>
+
+    <div class="tabbed-content" #scrollToTopAnchor>
+      <app-tab-headers
+        [datasetId]="datasetId"
+        [active]="activeTab"
+        [harvestData]="harvestPublicationData"
+        [lastExecution]="lastExecutionData"
+      >
+      </app-tab-headers>
+    </div>
+
+    <app-workflow-header
+      (returnToTop)="returnToTop()"
+      (setLinkCheck)="setLinkCheck($event)"
+      [conf]="fieldConf"
+      *ngIf="activeTab === 'workflow'"
+    >
+    </app-workflow-header>
+
+    <div class="tab-content">
+      <app-datasetform
+        *ngIf="activeTab === 'new' || activeTab === 'edit'"
+        [datasetData]="datasetData"
+        [harvestPublicationData]="harvestPublicationData"
+        [isNew]="false"
+        (datasetUpdated)="loadData()"
+      ></app-datasetform>
+      <app-workflow
+        *ngIf="activeTab === 'workflow'"
+        [datasetData]="datasetData"
+        [fieldConf]="fieldConf"
+        [workflowData]="workflowData"
+        [lastExecution]="lastExecutionData"
+        [isStarting]="isStarting"
+        (startWorkflow)="startWorkflow()"
+        (formInitialised)="formInitialised($event)"
+      ></app-workflow>
+      <app-depublication
+        *ngIf="activeTab === 'depublication'"
+        [datasetId]="datasetId"
+        [datasetName]="datasetName"
+        [totalRecordCount]="harvestPublicationData?.lastPublishedRecords"
+      ></app-depublication>
+      <app-mapping
+        *ngIf="activeTab === 'mapping'"
+        [datasetData]="datasetData"
+        (setTempXSLT)="tempXSLT = $event"
+      ></app-mapping>
+      <app-preview
+        *ngIf="activeTab === 'preview'"
+        [datasetData]="datasetData"
+        [previewFilters]="previewFilters"
+        [tempXSLT]="tempXSLT"
+        (setPreviewFilters)="previewFilters = $event"
+      ></app-preview>
+      <app-history
+        *ngIf="activeTab === 'log'"
+        [datasetData]="datasetData"
+        [lastExecutionData]="lastExecutionData"
+        (setReportMsg)="setReportMsg($event)"
+        (setPreviewFilters)="previewFilters = $event"
+      ></app-history>
+    </div>
+  </div>
+</div>

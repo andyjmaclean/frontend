@@ -1,0 +1,22 @@
+
+<form [formGroup]="formUpload" (ngSubmit)="onSubmitFormFile()">
+
+  <span>{{ title }} app is running!</span>
+
+  Here is the upload!
+
+  filename
+
+  <lib-file-upload
+    [form]="formUpload"
+    [acceptedTypes]="'.zip'"
+  ></lib-file-upload>
+
+  <button
+    type="submit"
+    [disabled]="!(formUpload.valid && formUpload.dirty)"
+  >
+    Submit
+  </button>
+
+</form>

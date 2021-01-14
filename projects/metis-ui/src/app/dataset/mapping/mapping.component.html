@@ -1,0 +1,54 @@
+<app-statistics [datasetData]="datasetData"></app-statistics>
+
+<app-notification
+  [notification]="notification"
+  (closed)="notification = undefined"
+></app-notification>
+
+<div class="btns-set btns-set-right">
+  <button (click)="tryOutXSLT('default')">{{ 'xsltTryOutDefault' | translate }}</button>
+</div>
+
+<div class="messages" *ngIf="xsltStatus === 'loading'">
+  <div class="success-message">
+    <span class="svg-icon-spin-inbutton"></span> {{ 'xsltLoading' | translate }}
+  </div>
+</div>
+
+<div class="btns-set btns-set-right" *ngIf="xsltStatus === 'no-custom'">
+  <span>{{ 'xsltTaskLoadDefault' | translate }}</span>
+  <button (click)="loadDefaultXSLT()">{{ 'xsltInitDefault' | translate }}</button>
+</div>
+
+<div *ngIf="xsltStatus === 'has-custom' || xsltStatus === 'new-custom'">
+  <div class="view-sample view-sample-expanded">
+    <div class="view-sample-title">
+      <h3>{{ 'xsltCustom' | translate }}</h3>
+      <app-theme-selector
+        (themeSet)="onThemeSet($event)"
+        [editorIsDefaultTheme]="editorConfig.theme === 'default'"
+      ></app-theme-selector>
+    </div>
+    <div class="view-sample-editor">
+      <div class="view-sample-editor-codemirror">
+        <ngx-codemirror
+          [ngModel]="xslt! | beautifyXML"
+          (ngModelChange)="xsltToSave = $event"
+          [options]="editorConfig"
+        ></ngx-codemirror>
+      </div>
+    </div>
+  </div>
+
+  <div class="btns-set btns-set-right">
+    <button (click)="cancel()" *ngIf="xsltStatus === 'new-custom'">
+      {{ 'cancel' | translate }}
+    </button>
+    <button (click)="loadDefaultXSLT()">{{ 'xsltResetDefault' | translate }}</button>
+    <button (click)="loadCustomXSLT()" *ngIf="xsltStatus === 'has-custom'">
+      {{ 'xsltReloadCustom' | translate }}
+    </button>
+    <button (click)="saveCustomXSLT(false)">{{ 'save' | translate }}</button>
+    <button (click)="saveCustomXSLT(true)">{{ 'xsltTryOut' | translate }}</button>
+  </div>
+</div>
