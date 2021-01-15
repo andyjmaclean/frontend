@@ -173,6 +173,7 @@
             "main": "projects/metis-ui/src/main.ts",
             "polyfills": "projects/metis-ui/src/polyfills.ts",
             "tsConfig": "projects/metis-ui/tsconfig.app.json",
+            "allowedCommonJsDependencies": ["@ctrl/ngx-codemirror", "codemirror"],
             "aot": true,
             "assets": ["projects/metis-ui/src/favicon.ico", "projects/metis-ui/src/assets"],
             "styles": ["projects/metis-ui/src/styles.scss"],
