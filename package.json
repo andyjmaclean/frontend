@@ -2,13 +2,14 @@
   "name": "metis-ui",
   "version": "2.0.1-development",
   "license": "MIT",
-  "XXXXXtype": "module",
+  "type": "module",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "start-mui": "ng serve --project=m-ui --port=4300",
     "start-both": "npm run start & npm run start-mui",
     "build": "ng build",
+    "build-sandbox": "ng build m-ui",
     "prettier": "prettier --write '{projects/metis-ui/src,projects/metis-ui/cypress,projects/metis-ui/test-data}/**/*.{ts,js,json,scss,html}' '*.{js,json}'",
     "lint": "eslint --ext .js,.ts projects/metis-ui/src/app --fix",
     "fix": "npm run prettier && npm run lint",
@@ -18,8 +19,7 @@
     "test:dev": "ng test --code-coverage",
     "cypress": "cypress open",
     "test": "npm run prettier:ci && npm run lint:ci && npm run template-check && npm run test:e2e",
-    "XXXtemplate-check": "ng build --progress=false --output-path=tmp/template-check --aot",
-    "template-check": "ng build --output-path=tmp/template-check --aot",
+    "template-check": "ng build --progress=false --output-path=tmp/template-check --aot",
     "tsc": "tsc --project projects/metis-ui/tsconfig.app.json",
     "prettier:ci": "prettier --list-different '{src,cypress}/**/*.{ts,js,json,scss,html}' '*.{js,json}'",
     "lint:ci": "eslint --ext .ts src/app",
@@ -31,7 +31,8 @@
     "test:e2e": "tsc && ((node ./dist/out-tsc/test-data/index.js) & (npm run cypress:ci ; fuser -k 3000/tcp))",
     "dist": "npm run i18n && ng build --progress=false --prod && cp src/static/manifest.yml src/static/Staticfile src/static/nginx.conf dist",
     "i18n": "ng xi18n --output-path locale --out-file messages.en-GB.xlf",
-    "lite": "lite-server --baseDir=dist"
+    "lite": "lite-server --baseDir=dist/metis-ui",
+    "lite-sandbox": "lite-server --baseDir=dist/m-ui"
   },
   "private": true,
   "engines": {

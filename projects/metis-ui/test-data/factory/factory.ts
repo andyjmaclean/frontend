@@ -732,11 +732,11 @@ export function evolution(datasetId: string, peType: string): HistoryVersions {
         reachedEnd = true;
       }
       if (!reachedEnd) {
-        res.push({
+        res.push(({
           workflowExecutionId: w.id,
           pluginType: pe.pluginType.toString(),
           finishedTime: pe.finishedDate
-        } as HistoryVersion);
+        } as unknown) as HistoryVersion);
       }
     });
   }
