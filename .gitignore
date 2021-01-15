@@ -2,7 +2,7 @@
 .idea
 .scannerwork
 
-/coverage
+**/coverage
 /dist
 /node_modules
 /src/environments/apisettings.ts
