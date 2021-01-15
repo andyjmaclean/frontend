@@ -8,10 +8,10 @@
   "files": [],
   "references": [
     {
-      "path": "./projects/m-ui/tsconfig.app.json"
+      "path": "./projects/metis-sandbox/tsconfig.app.json"
     },
     {
-      "path": "./projects/m-ui/tsconfig.spec.json"
+      "path": "./projects/metis-sandbox/tsconfig.spec.json"
     },
     {
       "path": "./projects/tools/tsconfig.lib.json"

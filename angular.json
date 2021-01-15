@@ -4,28 +4,28 @@
   "newProjectRoot": "projects",
 
   "projects": {
-    "m-ui": {
+    "metis-sandbox": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
         }
       },
-      "root": "projects/m-ui",
-      "sourceRoot": "projects/m-ui/src",
+      "root": "projects/metis-sandbox",
+      "sourceRoot": "projects/metis-sandbox/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/m-ui",
-            "index": "projects/m-ui/src/index.html",
-            "main": "projects/m-ui/src/main.ts",
-            "polyfills": "projects/m-ui/src/polyfills.ts",
-            "tsConfig": "projects/m-ui/tsconfig.app.json",
+            "outputPath": "dist/metis-sandbox",
+            "index": "projects/metis-sandbox/src/index.html",
+            "main": "projects/metis-sandbox/src/main.ts",
+            "polyfills": "projects/metis-sandbox/src/polyfills.ts",
+            "tsConfig": "projects/metis-sandbox/tsconfig.app.json",
             "aot": true,
-            "assets": ["projects/m-ui/src/favicon.ico", "projects/m-ui/src/assets"],
-            "styles": ["projects/m-ui/src/styles.scss"],
+            "assets": ["projects/metis-sandbox/src/favicon.ico", "projects/metis-sandbox/src/assets"],
+            "styles": ["projects/metis-sandbox/src/styles.scss"],
 
             "stylePreprocessorOptions": {
               "includePaths": ["shared-styles"]
@@ -37,8 +37,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "projects/m-ui/src/environments/environment.ts",
-                  "with": "projects/m-ui/src/environments/environment.prod.ts"
+                  "replace": "projects/metis-sandbox/src/environments/environment.ts",
+                  "with": "projects/metis-sandbox/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -61,35 +61,46 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "e2e": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ]
             }
           }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "m-ui:build"
+            "browserTarget": "metis-sandbox:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "m-ui:build:production"
+              "browserTarget": "metis-sandbox:build:production"
+            },
+            "e2e": {
+              "browserTarget": "metis:build:e2e"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "m-ui:build"
+            "browserTarget": "metis-sandbox:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/m-ui/src/test.ts",
-            "polyfills": "projects/m-ui/src/polyfills.ts",
-            "tsConfig": "projects/m-ui/tsconfig.spec.json",
-            "karmaConfig": "projects/m-ui/karma.conf.js",
-            "assets": ["projects/m-ui/src/favicon.ico", "projects/m-ui/src/assets"],
-            "styles": ["projects/m-ui/src/styles.scss"],
+            "main": "projects/metis-sandbox/src/test.ts",
+            "polyfills": "projects/metis-sandbox/src/polyfills.ts",
+            "tsConfig": "projects/metis-sandbox/tsconfig.spec.json",
+            "karmaConfig": "projects/metis-sandbox/karma.conf.js",
+            "assets": ["projects/metis-sandbox/src/favicon.ico", "projects/metis-sandbox/src/assets"],
+            "styles": ["projects/metis-sandbox/src/styles.scss"],
             "scripts": []
           }
         },
@@ -97,9 +108,9 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/m-ui/tsconfig.app.json",
-              "projects/m-ui/tsconfig.spec.json",
-              "projects/m-ui/e2e/tsconfig.json"
+              "projects/metis-sandbox/tsconfig.app.json",
+              "projects/metis-sandbox/tsconfig.spec.json",
+              "projects/metis-sandbox/e2e/tsconfig.json"
             ],
             "exclude": ["**/node_modules/**"]
           }
@@ -107,12 +118,12 @@
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
-            "protractorConfig": "projects/m-ui/e2e/protractor.conf.js",
-            "devServerTarget": "m-ui:serve"
+            "protractorConfig": "projects/metis-sandbox/e2e/protractor.conf.js",
+            "devServerTarget": "metis-sandbox:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "m-ui:serve:production"
+              "devServerTarget": "metis-sandbox:serve:production"
             }
           }
         }
@@ -207,6 +218,14 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "e2e": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/metis-ui/src/environments/apisettings.ts",
+                  "with": "projects/metis-ui/src/environments/apisettings-ci.ts"
+                }
+              ]
             }
           }
         },
@@ -218,6 +237,9 @@
           "configurations": {
             "production": {
               "browserTarget": "metis-ui:build:production"
+            },
+            "e2e": {
+              "browserTarget": "metis-ui:build:e2e"
             }
           }
         },

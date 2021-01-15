@@ -16,7 +16,6 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 export class AppComponent extends DataPollingComponent {
   title = 'administration';
   formUpload: FormGroup;
-  //fileFormName = 'uploadFile';
   fileFormName = 'filename'
 
   constructor(
@@ -25,7 +24,7 @@ export class AppComponent extends DataPollingComponent {
     private readonly fb: FormBuilder
   ) {
       super();
-      this.title = 'M-Ui: ' + helloWorld.message;
+      this.title = 'metis-sandbox: ' + helloWorld.message;
 
       this.formUpload = this.fb.group({
         filename: ['', [Validators.required, this.validateFileExtension]]

@@ -45,10 +45,10 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'm-ui'`, () => {
+  it(`should have as title 'metis-sandbox'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('M-Ui: Hello World!');
+    expect(app.title).toEqual('metis-sandbox: Hello World!');
   });
 
   it('should render title', () => {

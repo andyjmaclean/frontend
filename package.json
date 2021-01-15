@@ -6,17 +6,17 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "start-mui": "ng serve --project=m-ui --port=4300",
-    "start-both": "npm run start & npm run start-mui",
+    "start-metis-sandbox": "ng serve --project=metis-sandbox --port=4300",
+    "start-both": "npm run start & npm run start-metis-sandbox",
     "build": "ng build",
-    "build-sandbox": "ng build m-ui",
+    "build-sandbox": "ng build metis-sandbox",
     "prettier": "prettier --write '{projects/metis-ui/src,projects/metis-ui/cypress,projects/metis-ui/test-data}/**/*.{ts,js,json,scss,html}' '*.{js,json}'",
     "lint": "eslint --ext .js,.ts projects/metis-ui/src/app --fix",
     "fix": "npm run prettier && npm run lint",
     "XXXtest:dev": "ng test metis-ui --code-coverage",
-    "XXXtest:dev": "ng test m-ui --code-coverage",
+    "test:dev": "ng test metis-sandbox --code-coverage",
     "XXXtest:dev": "ng test tools --code-coverage",
-    "test:dev": "ng test --code-coverage",
+    "XXXtest:dev": "ng test --code-coverage",
     "cypress": "cypress open",
     "test": "npm run prettier:ci && npm run lint:ci && npm run template-check && npm run test:e2e",
     "template-check": "ng build --progress=false --output-path=tmp/template-check --aot",
@@ -25,14 +25,17 @@
     "lint:ci": "eslint --ext .ts src/app",
     "test:ci": "ng test --progress=false --watch=false --code-coverage --source-map=false",
     "cypress:ci": "run-p --race start:ci cypress:run",
+
     "start:ci": "ng serve --progress=false --port 4280 --live-reload=false --configuration=e2e",
+
     "start:ci-data": "npm run tsc && node ./dist/out-tsc/test-data/index.js",
+
     "cypress:run": "sleep 10 && cypress run",
     "test:e2e": "tsc && ((node ./dist/out-tsc/test-data/index.js) & (npm run cypress:ci ; fuser -k 3000/tcp))",
     "dist": "npm run i18n && ng build --progress=false --prod && cp src/static/manifest.yml src/static/Staticfile src/static/nginx.conf dist",
     "i18n": "ng xi18n --output-path locale --out-file messages.en-GB.xlf",
     "lite": "lite-server --baseDir=dist/metis-ui",
-    "lite-sandbox": "lite-server --baseDir=dist/m-ui"
+    "lite-sandbox": "lite-server --baseDir=dist/metis-sandbox"
   },
   "private": true,
   "engines": {
