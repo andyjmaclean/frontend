@@ -1,5 +1,4 @@
-// TODO move the lot to shared
-@import '../../assets/sass/scss/generic/variables';
+@import '../../../../../shared-styles/assets/sass/scss/generic/variables';
 
 $wizard-border-radius: 1.5em;
 
@@ -119,6 +118,7 @@ select {
   &::after {
     content: attr(data-label);
   }
+  /*
   &::before {
     color: $white;
     content: attr(data-value);
@@ -129,6 +129,7 @@ select {
     top: -3em;
     white-space: nowrap;
   }
+  */
   &.isSet {
     background-color: $eu-light-orange;
     border-color: $eu-yellow;

@@ -6,7 +6,6 @@ export interface PercentageClassInfo {
 
 /** Raw data **/
 
-
 export interface ProgressByStep {
   //errors	[...]
   fail: number;
