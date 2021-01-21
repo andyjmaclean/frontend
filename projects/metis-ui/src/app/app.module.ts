@@ -65,6 +65,9 @@ import {
 } from './shared';
 import { SearchResultsComponent } from './search-results';
 import { ThemeSelectorComponent } from './theme-selector';
+import { WizardComponent } from './metis-sandbox/wizard/wizard.component';
+import { ProgressTrackerComponent } from './metis-sandbox/progress-tracker/progress-tracker.component';
+import { ProgressBarComponent } from './metis-sandbox/progress-bar/progress-bar.component';
 
 @NgModule({
   declarations: [
@@ -122,7 +125,10 @@ import { ThemeSelectorComponent } from './theme-selector';
     GridrowComponent,
     ExecutionsgridComponent,
     NotificationComponent,
-    LoadingButtonComponent
+    LoadingButtonComponent,
+    WizardComponent,
+    ProgressTrackerComponent,
+    ProgressBarComponent
   ],
   imports: [
     BrowserModule,

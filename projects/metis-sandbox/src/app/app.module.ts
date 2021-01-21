@@ -7,14 +7,14 @@ import { ToolsModule } from 'projects/tools/src/public-api';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { ProgressTrackerComponent } from './progress-tracker/progress-tracker.component';
+import { WizardComponent } from './wizard/wizard.component';
+
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent, ProgressTrackerComponent, WizardComponent],
   imports: [
     AppRoutingModule,
     BrowserModule,
@@ -26,4 +26,4 @@ import { AppComponent } from './app.component';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

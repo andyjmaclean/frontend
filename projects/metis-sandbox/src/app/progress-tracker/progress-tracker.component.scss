@@ -1,0 +1,122 @@
+// TODO move the lot to shared
+@import '../../assets/sass/scss/generic/variables';
+
+$bc-color: $eu-jade;
+
+.form {
+  background-color: $bc-color;
+  border-radius: 1.5em;
+  color: $white;
+  margin: auto;
+  padding: 2em;
+  width: 80%;
+}
+
+.options {
+  background-color: $eu-light-jade;
+  border: 1px solid $eu-jade-dark;
+  color: $eu-jade-dark;
+}
+
+.options {
+  border-radius: 0 0 1em 1em;
+  border-radius: 1em;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 1em;
+
+  input,
+  label {
+    cursor: pointer;
+  }
+  input {
+    box-shadow: inset 0 1px 3px $eu-jade-dark;
+    outline: $eu-jade-dark;
+  }
+  label {
+    white-space: nowrap;
+  }
+}
+
+.wrapper {
+  padding: 0 2em;
+  overflow: hidden;
+}
+.segments {
+  display: flex;
+  flex-direction: row;
+  margin: 3em 1em;
+  position: relative;
+
+  &.stacked {
+    flex-direction: column;
+  }
+  &.totals {
+    border-right: 1px solid $bc-color;
+    border-bottom: 1px solid $bc-color;
+    &::after {
+      color: $eu-jade;
+      content: attr(data-percentage);
+      position: absolute;
+      right: -2rem;
+      top: -1.75rem;
+    }
+  }
+}
+
+.segment {
+  max-width: 100%;
+  position: relative;
+  transform-origin: left;
+  transition: 0.4s linear transform, 0.4s linear flex-basis;
+
+  &.ticked {
+    &::after {
+      content: ' ';
+      position: absolute;
+      border-left: 1px solid rgba(212, 57, 0, 0.2);
+      height: 0.4rem;
+      left: 0;
+      top: -0.4rem;
+    }
+  }
+  &.labelled {
+    &::before {
+      color: $eu-orange;
+      content: attr(data-label);
+      position: absolute;
+      top: -1rem;
+      transform: rotate(315deg);
+      transform: rotate(335deg);
+      transform-origin: left;
+      font-size: 0.35em;
+      text-overflow: ellipsis;
+      width: 30em;
+      white-space: nowrap;
+    }
+  }
+}
+
+.sub-segment {
+  display: inline-block;
+  height: 1em;
+}
+
+.success {
+  background: $eu-blue;
+}
+.fail {
+  background: $eu-red;
+}
+.warn {
+  background: $eu-yellow;
+}
+
+.plain {
+  .success,
+  .fail,
+  .warn {
+    background: $eu-jade;
+  }
+}

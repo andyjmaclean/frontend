@@ -1,0 +1,94 @@
+<div class="form">
+  <label style="font-size: 1.5em;">Dataset Id(s)<input #ids/></label>
+  <label>Display Options</label>
+  <fieldset class="options">
+    <label>
+      <input #plain [(ngModel)]="plain.selected" type="checkbox" />
+      Hide Details</label
+    >
+    <label>
+      <input
+        #normalise
+        [(ngModel)]="normalise.selected"
+        [disabled]="plain.selected"
+        type="checkbox"
+      />
+      Normalise</label
+    >
+    <label>
+      <input #stack [(ngModel)]="stack.selected" type="checkbox" />
+      Stack</label
+    >
+    <label>
+      <input
+        #labels
+        [(ngModel)]="labels.selected"
+        [disabled]="plain.selected || stack.selected"
+        type="checkbox"
+      />
+      Hide labels</label
+    >
+    <label>
+      <input
+        #ticks
+        [(ngModel)]="ticks.selected"
+        [disabled]="plain.selected || stack.selected"
+        type="checkbox"
+      />
+      Hide ticks</label
+    >
+    <label>
+      <input
+        #totals
+        [(ngModel)]="totals.selected"
+        [disabled]="plain.selected || stack.selected"
+        type="checkbox"
+      />
+      Hide totals</label
+    >
+  </fieldset>
+</div>
+
+<ng-template #progressBar let-data="data" let-dataIndex="dataIndex">
+  <div class="wrapper">
+    <div
+      class="segments"
+      [attr.data-percentage]="'87.12%'"
+      [ngClass]="{
+        stacked: stack.selected,
+        totals: !normalise.selected && !totals.selected,
+        plain: plain.selected
+      }"
+    >
+      <div
+        *ngFor="let item of data['progress-by-step']"
+        class="segment"
+        [attr.data-label]="item.step"
+        [ngClass]="{
+          labelled: !plain.selected && !labels.selected && !stack.selected,
+          ticked: !plain.selected && !ticks.selected
+        }"
+        [ngStyle]="{
+          transform:
+            normalise.selected || !stack.selected ? 'none' : 'scaleX(' + getPct(item) + '%)',
+          flexBasis: getFlexBasis(item, data, normalise.selected) + '%'
+        }"
+      >
+        <ng-container *ngFor="let pctItem of getProgressByStepPercentages(item)">
+          <span
+            [title]="item.step"
+            class="sub-segment {{ pctItem.className }}"
+            style="width:{{ pctItem.pct }}%"
+          ></span>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-container
+  *ngFor="let pd of progressData"
+  [ngTemplateOutlet]="progressBar"
+  [ngTemplateOutletContext]="{ data: pd }"
+>
+</ng-container>

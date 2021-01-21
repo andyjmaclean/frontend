@@ -1,0 +1,141 @@
+// TODO move the lot to shared
+@import '../../assets/sass/scss/generic/variables';
+
+$wizard-border-radius: 1.5em;
+
+.buttons {
+  display: flex;
+  margin-top: 1.25em;
+  justify-content: space-between;
+}
+
+.hidden {
+  display: none;
+}
+
+select {
+  width: 100%;
+}
+
+.wizard button {
+  background: $eu-jade;
+  border-radius: 2em;
+  font-weight: bold;
+
+  &:not([type='submit']) {
+    &:hover {
+      background-color: $white;
+      color: #053048;
+      transition: 0.3s linear background-color;
+    }
+    &:active {
+      border-color: $eu-jade-light;
+      text-shadow: -1px -1px 1px rgb(113, 192, 123, 0.1), 1px 1px 1px rgb(25, 115, 36, 0.5);
+    }
+  }
+
+  &[type='submit'] {
+    &:hover {
+      background-color: $eu-light-orange;
+      border-color: $eu-yellow;
+      text-shadow: -1px -1px 1px rgba(255, 255, 255, 0.1), 1px 1px 1px rgba(0, 0, 0, 0.5);
+    }
+    &[disabled] {
+      cursor: default;
+      background: $gray-lighter;
+      border-color: $gray-light;
+      color: $gray-light;
+      pointer-events: none;
+    }
+    &:active {
+      background-color: $white;
+      color: #053048;
+      border-color: $eu-jade-light;
+      text-shadow: -1px -1px 1px rgb(113, 192, 123, 0.1), 1px 1px 1px rgb(25, 115, 36, 0.5);
+    }
+  }
+}
+
+.wizard,
+.wizard button {
+  border: 1px solid $eu-jade-dark;
+}
+
+.wizard {
+  background-color: $eu-light-jade;
+  border: 1px solid $eu-jade-dark;
+  border-radius: $wizard-border-radius;
+  margin: auto;
+  width: 80%;
+}
+
+.wizard-head {
+  background: $eu-jade;
+  border-bottom: 1px solid $eu-jade-dark;
+  border-radius: $wizard-border-radius $wizard-border-radius 0 0;
+  color: $white;
+
+  label {
+    font-size: 1.5em;
+    text-align: center;
+    top: 0.75em;
+    position: relative;
+  }
+}
+
+.wizard-content {
+  margin: 3em 2em 2em 2em;
+}
+
+.wizard-status {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+
+  li {
+    position: relative;
+    top: 2em;
+  }
+}
+
+.orb-status {
+  background-color: $eu-jade-light;
+  border-color: $eu-jade-dark;
+
+  &.labelled {
+    border-radius: 1.5em;
+    height: 3em;
+    min-width: 3em;
+    width: 3em;
+    &::after {
+      font-size: 1.25em;
+    }
+  }
+
+  &:hover {
+    background-color: $white;
+  }
+
+  &::after {
+    content: attr(data-label);
+  }
+  &::before {
+    color: $white;
+    content: attr(data-value);
+    font-size: 0.5em;
+    left: -1em;
+    position: absolute;
+    text-shadow: none;
+    top: -3em;
+    white-space: nowrap;
+  }
+  &.isSet {
+    background-color: $eu-light-orange;
+    border-color: $eu-yellow;
+    border-color: $white;
+  }
+  &.active {
+    border-width: 2px;
+    border-color: $eu-yellow;
+  }
+}

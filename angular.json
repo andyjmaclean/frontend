@@ -24,7 +24,10 @@
             "polyfills": "projects/metis-sandbox/src/polyfills.ts",
             "tsConfig": "projects/metis-sandbox/tsconfig.app.json",
             "aot": true,
-            "assets": ["projects/metis-sandbox/src/favicon.ico", "projects/metis-sandbox/src/assets"],
+            "assets": [
+              "projects/metis-sandbox/src/favicon.ico",
+              "projects/metis-sandbox/src/assets"
+            ],
             "styles": ["projects/metis-sandbox/src/styles.scss"],
 
             "stylePreprocessorOptions": {
@@ -98,8 +101,11 @@
             "main": "projects/metis-sandbox/src/test.ts",
             "polyfills": "projects/metis-sandbox/src/polyfills.ts",
             "tsConfig": "projects/metis-sandbox/tsconfig.spec.json",
-            "karmaConfig": "projects/metis-sandbox/karma.conf.js",
-            "assets": ["projects/metis-sandbox/src/favicon.ico", "projects/metis-sandbox/src/assets"],
+            "karmaConfig": "projects/metis-sandbox/karma.conf.cjs",
+            "assets": [
+              "projects/metis-sandbox/src/favicon.ico",
+              "projects/metis-sandbox/src/assets"
+            ],
             "styles": ["projects/metis-sandbox/src/styles.scss"],
             "scripts": []
           }
@@ -153,7 +159,7 @@
           "options": {
             "main": "projects/tools/src/test.ts",
             "tsConfig": "projects/tools/tsconfig.spec.json",
-            "karmaConfig": "projects/tools/karma.conf.js"
+            "karmaConfig": "projects/tools/karma.conf.cjs"
           }
         },
         "lint": {
@@ -255,7 +261,7 @@
             "main": "projects/metis-ui/src/test.ts",
             "polyfills": "projects/metis-ui/src/polyfills.ts",
             "tsConfig": "projects/metis-ui/tsconfig.spec.json",
-            "karmaConfig": "projects/metis-ui/karma.conf.js",
+            "karmaConfig": "projects/metis-ui/karma.conf.cjs",
             "assets": ["projects/metis-ui/src/favicon.ico", "projects/metis-ui/src/assets"],
             "styles": ["projects/metis-ui/src/styles.scss"],
             "scripts": []

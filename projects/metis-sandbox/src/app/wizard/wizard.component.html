@@ -1,0 +1,44 @@
+<form [formGroup]="formUpload" (ngSubmit)="onSubmitFormFile()">
+  <div class="wizard">
+    <div class="wizard-head">
+      <label *ngIf="step === 0" for="name">Type a Name</label>
+      <label *ngIf="step === 1" for="language">Select the Country</label>
+      <label *ngIf="step === 2">Select the Language</label>
+      <label *ngIf="step === 3" for="country">Select the upload file</label>
+      <ul class="wizard-status">
+        <li *ngFor="let item of ['name', 'country', 'language', 'dataset']; let i = index">
+          <a
+            (click)="setStep(i)"
+            [ngClass]="{ isSet: formUpload.value[item], active: step === i }"
+            class="orb-status labelled"
+            [attr.data-label]="i + 1"
+            [attr.data-value]="getFullStatus(item)"
+          ></a>
+        </li>
+      </ul>
+    </div>
+    <div class="wizard-content">
+      <input [ngClass]="{ hidden: step !== 0 }" formControlName="name" />
+      <select [ngClass]="{ hidden: step !== 1 }" formControlName="country">
+        <option *ngFor="let country of countries" [ngValue]="country">{{ country }}</option>
+      </select>
+      <select [ngClass]="{ hidden: step !== 2 }" formControlName="language">
+        <option *ngFor="let lang of languages" [ngValue]="lang.code">{{ lang.name }}</option>
+      </select>
+      <lib-file-upload
+        [ngClass]="{ hidden: step !== 3 }"
+        [formControlName]="fileFormName"
+        [form]="formUpload"
+        [acceptedTypes]="'.zip'"
+      ></lib-file-upload>
+      <div class="buttons">
+        <button [disabled]="!formUpload.valid" type="submit">
+          Submit
+        </button>
+        <button [ngClass]="{ hidden: step >= 3 }" (click)="setStep(step + 1)">
+          &gt;&gt;
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
