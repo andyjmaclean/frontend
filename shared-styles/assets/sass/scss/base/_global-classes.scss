@@ -1,0 +1,15 @@
+%clearfix {
+  &::after {
+    clear: both;
+    content: '';
+    display: table;
+  }
+}
+
+.cf {
+  @extend %clearfix;
+}
+
+.errors {
+  color: $eu-red;
+}

@@ -1,0 +1,50 @@
+.header-wrapper {
+  position: fixed;
+  width: 100%;
+  z-index: 10;
+}
+
+.header {
+  background: rgba($white, 0.85);
+  -webkit-box-shadow: rgba(77, 77, 77, 0.2) 0 0 3px;
+  box-shadow: rgba(77, 77, 77, 0.2) 0 0 3px;
+  min-height: $globalnavheight;
+  padding: 0;
+  position: relative;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: transform 0.3s;
+  width: 100%;
+  z-index: 1;
+}
+
+.header > .cf {
+  border-top: 6px solid $accent;
+  position: relative;
+}
+
+.after-header {
+  margin-top: $globalnavheight;
+}
+
+.logo {
+  background-image: url('/assets/images/europeana-logo-default.png');
+  background-position: 0 50%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: block;
+  float: left;
+  height: 58px;
+  margin: 0.4rem;
+  margin-left: 2%;
+  max-width: 168px;
+  width: 50%;
+
+  .svg & {
+    background-image: url('/assets/images/europeana-logo-default.svg');
+  }
+  h1 {
+    padding-top: 5em;
+  }
+}
