@@ -1,53 +1,33 @@
-<div class="form">
+<form class="form" [formGroup]="formCtrls" *ngIf="showCtrls">
   <label style="font-size: 1.5em;">Dataset Id(s)<input #ids/></label>
   <label>Display Options</label>
   <fieldset class="options">
     <label>
-      <input #plain [(ngModel)]="plain.selected" type="checkbox" />
+      <input formControlName="plain" type="checkbox" />
       Hide Details</label
     >
     <label>
-      <input
-        #normalise
-        [(ngModel)]="normalise.selected"
-        [disabled]="plain.selected"
-        type="checkbox"
-      />
+      <input formControlName="normalise" type="checkbox" />
       Normalise</label
     >
     <label>
-      <input #stack [(ngModel)]="stack.selected" type="checkbox" />
+      <input formControlName="stack" type="checkbox" />
       Stack</label
     >
     <label>
-      <input
-        #labels
-        [(ngModel)]="labels.selected"
-        [disabled]="plain.selected || stack.selected"
-        type="checkbox"
-      />
+      <input formControlName="labels" type="checkbox" />
       Hide labels</label
     >
     <label>
-      <input
-        #ticks
-        [(ngModel)]="ticks.selected"
-        [disabled]="plain.selected || stack.selected"
-        type="checkbox"
-      />
+      <input formControlName="ticks" type="checkbox" />
       Hide ticks</label
     >
     <label>
-      <input
-        #totals
-        [(ngModel)]="totals.selected"
-        [disabled]="plain.selected || stack.selected"
-        type="checkbox"
-      />
+      <input formControlName="totals" type="checkbox" />
       Hide totals</label
     >
   </fieldset>
-</div>
+</form>
 
 <ng-template #progressBar let-data="data" let-dataIndex="dataIndex">
   <div class="wrapper">
@@ -55,9 +35,9 @@
       class="segments"
       [attr.data-percentage]="'87.12%'"
       [ngClass]="{
-        stacked: stack.selected,
-        totals: !normalise.selected && !totals.selected,
-        plain: plain.selected
+        stacked: formCtrls.value['stack'],
+        totals: !formCtrls.value['normalise'] && !formCtrls.value.totals,
+        plain: formCtrls.value.plain
       }"
     >
       <div
@@ -65,13 +45,15 @@
         class="segment"
         [attr.data-label]="item.step"
         [ngClass]="{
-          labelled: !plain.selected && !labels.selected && !stack.selected,
-          ticked: !plain.selected && !ticks.selected
+          labelled: !formCtrls.value.plain && !formCtrls.value.labels && !formCtrls.value['stack'],
+          ticked: !formCtrls.value.plain && !formCtrls.value.ticks
         }"
         [ngStyle]="{
           transform:
-            normalise.selected || !stack.selected ? 'none' : 'scaleX(' + getPct(item) + '%)',
-          flexBasis: getFlexBasis(item, data, normalise.selected) + '%'
+            formCtrls.value['normalise'] || !formCtrls.value['stack']
+              ? 'none'
+              : 'scaleX(' + getPct(item) + '%)',
+          flexBasis: getFlexBasis(item, data, formCtrls.value['normalise']) + '%'
         }"
       >
         <ng-container *ngFor="let pctItem of getProgressByStepPercentages(item)">

@@ -32,36 +32,90 @@ export class WizardComponent extends DataPollingComponent {
       name: 'Italian'
     }
   ];
+
   step = 0;
+  trackId: number;
+  fieldConf = [
+    {
+      title: 'name',
+      instruction: 'Type a Name',
+      fields: [
+        {
+          name: 'name',
+          type: 'text',
+          validators: [
+            Validators.required,
+            (control: FormControl): { [key: string]: boolean } | null => {
+              const val = control.value;
+              console.log('test for andy = ' + val);
+              if (val !== 'andy') {
+                return { custom: true };
+              }
+              return null;
+            }
+          ]
+        }
+      ]
+    },
+    {
+      title: 'country_language',
+      instruction: 'Select the Country and Language',
+      fields: [
+        {
+          name: 'country',
+          type: 'optioned',
+          options: this.countries,
+          validators: [Validators.required]
+        },
+        {
+          name: 'language',
+          options: this.languages,
+          type: 'optioned',
+          validators: [Validators.required]
+        }
+      ]
+    },
+    {
+      title: 'dataset',
+      instruction: 'Configure the data source',
+      fields: [{ name: 'dataset', type: 'file', validators: [Validators.required] }]
+    },
+    {
+      title: 'progress',
+      instruction: 'Show the progress here'
+    }
+  ];
 
   constructor(private readonly http: HttpClient, private readonly fb: FormBuilder) {
     super();
-    this.formUpload = this.fb.group({
-      country: ['', [Validators.required]],
-      dataset: ['', [Validators.required, this.validateFileExtension]],
-      language: ['', [Validators.required]],
-      name: ['', [Validators.required]]
-    });
+
+    this.formUpload = this.fb.group(
+      this.fieldConf
+        .filter((conf) => {
+          return !!conf.fields;
+        })
+        .reduce((map, conf: any) => {
+          let test = conf.fields.reduce((map, f: any) => {
+            let entry = [''];
+            if (f.validators) {
+              entry.push(f.validators);
+            }
+            map[f.name] = entry;
+            return map;
+          }, {});
+          return Object.assign(map, test);
+        }, {})
+    );
   }
 
-  getFullStatus(field: string): string {
+  getOrbTooltip(field: string): string {
     const val = this.formUpload.value[field];
     const sVal = typeof val === 'object' ? val.name : val;
-    return val ? sVal : '';
+    return val ? `${field}: ${sVal}` : '';
   }
 
   setStep(step: number): void {
     this.step = step;
-  }
-
-  /** TODO: move this copied code to shared/[_validators]
-   */
-  validateFileExtension(control: FormControl): { [key: string]: boolean } | null {
-    const splitVal = (control.value ? control.value.name : '').split('.');
-    if (splitVal.length > 1 && splitVal[1].toLowerCase() !== 'zip') {
-      return { extension: true };
-    }
-    return null;
   }
 
   /** onSubmitFormFile
@@ -76,6 +130,7 @@ export class WizardComponent extends DataPollingComponent {
           (res: SubmissionResponseData) => {
             if (res.body) {
               const trackId = res.body['dataset-id'];
+              this.trackId = trackId;
               console.log('Start following progress of ' + trackId);
             }
           },
@@ -85,6 +140,16 @@ export class WizardComponent extends DataPollingComponent {
         )
       );
     }
+  }
+
+  stepIsComplete(step: number): boolean {
+    if (!this.fieldConf[step].fields) {
+      return !!this.trackId;
+    }
+    return !this.fieldConf[step].fields.find((f: any) => {
+      let ctrl = this.formUpload.get(f.name);
+      return !ctrl.valid;
+    });
   }
 
   /** setPublicationFile

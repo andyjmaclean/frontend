@@ -1,38 +1,64 @@
 <form [formGroup]="formUpload" (ngSubmit)="onSubmitFormFile()">
   <div class="wizard">
     <div class="wizard-head">
-      <label *ngIf="step === 0" for="name">Type a Name</label>
-      <label *ngIf="step === 1" for="language">Select the Country</label>
-      <label *ngIf="step === 2">Select the Language</label>
-      <label *ngIf="step === 3" for="country">Select the upload file</label>
+      <ng-container *ngFor="let conf of fieldConf; let i = index">
+        <label *ngIf="step === i">{{ conf.instruction }}</label>
+      </ng-container>
+
       <ul class="wizard-status">
-        <li *ngFor="let item of ['name', 'country', 'language', 'dataset']; let i = index">
+        <li *ngFor="let conf of fieldConf; let i = index">
           <a
             (click)="setStep(i)"
-            [ngClass]="{ isSet: formUpload.value[item], active: step === i }"
+            [ngClass]="{ isSet: stepIsComplete(i), active: step === i }"
             class="orb-status labelled"
             [attr.data-label]="i + 1"
-            [attr.data-value]="getFullStatus(item)"
+            [attr.title]="getOrbTooltip(item)"
           ></a>
         </li>
       </ul>
     </div>
     <div class="wizard-content">
-      <input [ngClass]="{ hidden: step !== 0 }" formControlName="name" />
-      <select [ngClass]="{ hidden: step !== 1 }" formControlName="country">
-        <option *ngFor="let country of countries" [ngValue]="country">{{ country }}</option>
-      </select>
-      <select [ngClass]="{ hidden: step !== 2 }" formControlName="language">
-        <option *ngFor="let lang of languages" [ngValue]="lang.code">{{ lang.name }}</option>
-      </select>
-      <lib-file-upload
-        [ngClass]="{ hidden: step !== 3 }"
-        [formControlName]="fileFormName"
-        [form]="formUpload"
-        [acceptedTypes]="'.zip'"
-      ></lib-file-upload>
+      <div *ngFor="let conf of fieldConf; let i = index" [ngClass]="{ hidden: i !== step }">
+        <ng-container *ngFor="let field of conf.fields" [ngSwitch]="field.type">
+          <ng-container *ngSwitchCase="'optioned'">
+            <select [formControlName]="field.name">
+              <option
+                *ngFor="let option of field.options"
+                [ngValue]="option.code ? option.code : option"
+                >{{ option.name ? option.name : option }}</option
+              >
+            </select>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'file'">
+            <lib-file-upload
+              [formControlName]="fileFormName"
+              [form]="formUpload"
+              [acceptedTypes]="'.zip'"
+            ></lib-file-upload>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'text'">
+            <input [formControlName]="field.name" />
+          </ng-container>
+        </ng-container>
+
+        <ng-container *ngIf="conf.title === 'progress'">
+          <ng-container *ngIf="btnSubmit.clicked">
+            <app-progress-tracker [showCtrls]="false"></app-progress-tracker>
+          </ng-container>
+
+          <ng-container *ngIf="!btnSubmit.clicked"> You can get progess <input /> </ng-container>
+        </ng-container>
+      </div>
+
       <div class="buttons">
-        <button [disabled]="!formUpload.valid" type="submit">
+        <button
+          [disabled]="!formUpload.valid"
+          type="submit"
+          #btnSubmit
+          (click)="btnSubmit.clicked = true"
+        >
           Submit
         </button>
         <button [ngClass]="{ hidden: step >= 3 }" (click)="setStep(step + 1)">

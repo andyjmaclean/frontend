@@ -1,0 +1,40 @@
+<div class="form-group">
+  <label *ngIf="protocol === 'http'">Harvest protocol *</label>
+
+  <div class="form-group-radios">
+    <label>
+      <input type="radio" value="file" [checked]="protocol === 'file'" />
+      File upload
+    </label>
+    <label>
+      <input type="radio" value="OAIPMH_HARVEST" [checked]="protocol === 'oai'" />
+      OAI-PMH upload
+    </label>
+    <label>
+      <input type="radio" value="HTTP_HARVEST" checked="false" [checked]="protocol === 'http'" />
+      HTTP upload
+    </label>
+  </div>
+</div>
+
+<div class="form-group" *ngIf="protocol === 'file'">
+  <input id="harvest-url" type="file" />
+</div>
+<div class="form-group" *ngIf="protocol === 'http'">
+  <label for="harvest-url">harvestUrl *</label>
+  <input id="harvest-url" type="text" />
+</div>
+<div class="form-group" *ngIf="protocol === 'oai'">
+  <div class="form-group">
+    <label for="setspec">Set Spec</label>
+    <input id="setspec" type="tel" />
+  </div>
+  <div class="form-group">
+    <label for="metadata-format">MetaData Format *</label>
+    <input id="metadata-format" type="text" />
+  </div>
+  <div class="form-group">
+    <label for="url">Url *</label>
+    <input id="url" type="text" />
+  </div>
+</div>

@@ -1,0 +1,23 @@
+@import '../../../../../shared-styles/assets/sass/scss/generic/variables';
+@import '../../../../../shared-styles/assets/sass/pandora/settings/metis-variables';
+
+.content {
+  line-height: 1.3em;
+  position: absolute;
+  transform: translateY(-50%);
+}
+
+.show-on-hover {
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+// added
+label {
+  display: inline-block;
+  padding: 0.5rem 2rem 0.5rem 0;
+}
+.form-group {
+  color: $eu-jade-dark;
+  margin: 0 auto 1rem;
+}

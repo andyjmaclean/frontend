@@ -1,5 +1,6 @@
-//import { Component, Input, OnInit } from '@angular/core';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+
 import { DatasetInfo, ProgressByStep, PercentageClassInfo } from '../_models';
 import { testDatasetInfo } from '../_mocked';
 
@@ -9,9 +10,22 @@ import { testDatasetInfo } from '../_mocked';
   styleUrls: ['./progress-tracker.component.scss']
 })
 export class ProgressTrackerComponent implements OnInit {
-  //@Input() progressData: DatasetInfo;
-  progressData = testDatasetInfo;
-  ngOnInit(): void {}
+  @Input() showCtrls: boolean;
+  progressData = testDatasetInfo.slice(0, 1);
+  formCtrls: FormGroup;
+
+  constructor(private readonly fb: FormBuilder) {}
+
+  ngOnInit(): void {
+    this.formCtrls = this.fb.group({
+      plain: [''],
+      labels: [''],
+      stack: [''],
+      normalise: [''],
+      totals: [''],
+      ticks: ['']
+    });
+  }
 
   getPct(item: ProgressByStep): number {
     return (item.total / this.progressData['total-records']) * 100;
