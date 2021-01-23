@@ -1,40 +1,72 @@
-<div class="form-group">
-  <label *ngIf="protocol === 'http'">Harvest protocol *</label>
+<div class="form-group" [formGroup]="form">
+  <label>Harvest protocol *</label>
 
   <div class="form-group-radios">
     <label>
-      <input type="radio" value="file" [checked]="protocol === 'file'" />
+      <input type="radio" formControlName="pluginType" value="FILE" />
       File upload
     </label>
     <label>
-      <input type="radio" value="OAIPMH_HARVEST" [checked]="protocol === 'oai'" />
+      <input type="radio" formControlName="pluginType" value="OAIPMH_HARVEST" />
       OAI-PMH upload
     </label>
     <label>
-      <input type="radio" value="HTTP_HARVEST" checked="false" [checked]="protocol === 'http'" />
+      <input type="radio" formControlName="pluginType" value="HTTP_HARVEST" />
       HTTP upload
     </label>
   </div>
 </div>
 
-<div class="form-group" *ngIf="protocol === 'file'">
-  <input id="harvest-url" type="file" />
-</div>
-<div class="form-group" *ngIf="protocol === 'http'">
-  <label for="harvest-url">harvestUrl *</label>
-  <input id="harvest-url" type="text" />
-</div>
-<div class="form-group" *ngIf="protocol === 'oai'">
-  <div class="form-group">
-    <label for="setspec">Set Spec</label>
-    <input id="setspec" type="tel" />
+<div class="form-group" *ngIf="isProtocolOAIPMH()" [formGroup]="form">
+  <label for="harvest-url"> Harvest URL *</label>
+  <input id="harvest-url" type="text" formControlName="harvestUrl" placeholder="harvest url" />
+  <div class="messages" *ngIf="form.get('harvestUrl')!.errors && form.get('harvestUrl')!.dirty">
+    <div *ngIf="form.get('harvestUrl')!.errors!.validParameter" class="error-message">
+      Parameters are not allowed
+    </div>
+    <div *ngIf="form.get('harvestUrl')!.errors!.validUrl" class="error-message">
+      This is not a valid URL
+    </div>
   </div>
-  <div class="form-group">
-    <label for="metadata-format">MetaData Format *</label>
-    <input id="metadata-format" type="text" />
-  </div>
-  <div class="form-group">
-    <label for="url">Url *</label>
-    <input id="url" type="text" />
+</div>
+
+<div class="form-group" *ngIf="isProtocolOAIPMH()" [formGroup]="form">
+  <label for="setspec">Setspec</label>
+  <input id="setspec" type="tel" formControlName="setSpec" placeholder="set spec" />
+</div>
+
+<div
+  class="form-group"
+  [formGroup]="form"
+  [ngStyle]="{ display: isProtocolFile() ? 'block' : 'none' }"
+>
+  <lib-file-upload
+    [formControlName]="fileFormName"
+    [form]="form"
+    [acceptedTypes]="'.zip'"
+  ></lib-file-upload>
+</div>
+
+<div class="form-group" *ngIf="isProtocolOAIPMH()" [formGroup]="form">
+  <label for="metadata-format">Metadata format *</label>
+  <input
+    id="metadata-format"
+    type="text"
+    formControlName="metadataFormat"
+    placeholder="metadata format"
+  />
+</div>
+
+<div class="form-group" *ngIf="isProtocolHTTP()" [formGroup]="form">
+  <label for="url">Url *</label>
+  <input id="url" type="text" formControlName="url" placeholder="url" />
+
+  <div class="messages" *ngIf="form.get('url')!.errors && form.get('url')!.dirty">
+    <div *ngIf="form.get('url')!.errors!.validParameter" class="error-message">
+      Parameters are not allowed
+    </div>
+    <div *ngIf="form.get('url')!.errors!.validUrl" class="error-message">
+      This is not a valid URL
+    </div>
   </div>
 </div>

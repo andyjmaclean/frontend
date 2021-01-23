@@ -1,15 +1,21 @@
 <form [formGroup]="formUpload" (ngSubmit)="onSubmitFormFile()">
   <div class="wizard">
-    <div class="wizard-head">
-      <ng-container *ngFor="let conf of fieldConf; let i = index">
+    <div class="wizard-head" [ngClass]="{ 'orbs-hidden': orbsHidden }">
+      <ng-container *ngFor="let conf of wizardConf; let i = index">
         <label *ngIf="step === i">{{ conf.instruction }}</label>
       </ng-container>
 
       <ul class="wizard-status">
-        <li *ngFor="let conf of fieldConf; let i = index">
+        <li
+          *ngFor="let conf of wizardConf; let i = index"
+          [ngClass]="{ 'progress-orb': conf.title === 'progress' }"
+        >
           <a
             (click)="setStep(i)"
-            [ngClass]="{ isSet: stepIsComplete(i), active: step === i }"
+            [ngClass]="{
+              isSet: stepIsComplete(i),
+              active: step === i
+            }"
             class="orb-status labelled"
             [attr.data-label]="i + 1"
             [attr.title]="getOrbTooltip(item)"
@@ -18,29 +24,31 @@
       </ul>
     </div>
     <div class="wizard-content">
-      <div *ngFor="let conf of fieldConf; let i = index" [ngClass]="{ hidden: i !== step }">
+      <div *ngFor="let conf of wizardConf; let i = index" [ngClass]="{ hidden: i !== step }">
         <ng-container *ngFor="let field of conf.fields" [ngSwitch]="field.type">
-          <ng-container *ngSwitchCase="'optioned'">
-            <select [formControlName]="field.name">
+          <div class="form-group" *ngSwitchCase="'select'">
+            <label *ngIf="field.label" for="{{ field.name }}">{{ field.label }}</label>
+            <select id="{{ field.name }}" [formControlName]="field.name">
               <option
                 *ngFor="let option of field.options"
                 [ngValue]="option.code ? option.code : option"
                 >{{ option.name ? option.name : option }}</option
               >
             </select>
-          </ng-container>
+          </div>
 
-          <ng-container *ngSwitchCase="'file'">
+          <div *ngSwitchCase="'file'">
+            <label *ngIf="field.label">{{ field.label }}</label>
             <lib-file-upload
               [formControlName]="fileFormName"
               [form]="formUpload"
               [acceptedTypes]="'.zip'"
             ></lib-file-upload>
-          </ng-container>
-
-          <ng-container *ngSwitchCase="'text'">
-            <input [formControlName]="field.name" />
-          </ng-container>
+          </div>
+          <div class="form-group" *ngSwitchCase="'text'">
+            <label *ngIf="field.label" for="{{ field.name }}">{{ field.label }}</label>
+            <input id="{{ field.name }}" [formControlName]="field.name" />
+          </div>
         </ng-container>
 
         <ng-container *ngIf="conf.title === 'progress'">
@@ -48,22 +56,46 @@
             <app-progress-tracker [showCtrls]="false"></app-progress-tracker>
           </ng-container>
 
-          <ng-container *ngIf="!btnSubmit.clicked"> You can get progess <input /> </ng-container>
+          <div class="form-group" *ngIf="!btnSubmit.clicked">
+            <label>Enter the id of the dataset to track </label>
+            <input />
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="conf.title === 'harvest'">
+          <app-workflow-form-field-harvest [_form]="formUpload" [fileFormName]="fileFormName">
+          </app-workflow-form-field-harvest>
         </ng-container>
       </div>
 
       <div class="buttons">
+        <ng-container *ngIf="!btnSubmit.clicked && wizardConf[step].title === 'progress'">
+          <label class="inline-text">Or <a (click)="setStep(0)">create a new dataset</a></label>
+        </ng-container>
         <button
+          [ngClass]="{
+            hidden: orbsHidden || (wizardConf[step].title === 'progress' && !formUpload.valid)
+          }"
           [disabled]="!formUpload.valid"
           type="submit"
           #btnSubmit
           (click)="btnSubmit.clicked = true"
         >
-          Submit
+          Upload
         </button>
-        <button [ngClass]="{ hidden: step >= 3 }" (click)="setStep(step + 1)">
-          &gt;&gt;
-        </button>
+
+        <div [ngClass]="{ hidden: orbsHidden }">
+          <button
+            class="orb-status labelled previous"
+            [ngClass]="{ hidden: step < 1 }"
+            (click)="setStep(step - 1)"
+          ></button>
+          <button
+            class="orb-status labelled next"
+            [ngClass]="{ hidden: step >= 3 }"
+            (click)="setStep(step + 1)"
+          ></button>
+        </div>
       </div>
     </div>
   </div>

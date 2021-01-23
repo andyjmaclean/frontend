@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { HttpClient, HttpEvent, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { DataPollingComponent } from 'projects/tools/src/public-api';
-import { SubmissionResponseData } from '../_models';
+import { SubmissionResponseData, WizardStep } from '../_models';
 
 @Component({
   selector: 'app-wizard',
@@ -16,93 +16,41 @@ import { SubmissionResponseData } from '../_models';
 })
 export class WizardComponent extends DataPollingComponent {
   formUpload: FormGroup;
-  fileFormName = 'dataset';
-  countries = ['Greece', 'Hungary', 'Italy'];
-  languages = [
-    {
-      code: 'el',
-      name: 'Greek'
-    },
-    {
-      code: 'hu',
-      name: 'Hungarian'
-    },
-    {
-      code: 'it',
-      name: 'Italian'
-    }
-  ];
+  @Input() fileFormName: string;
 
-  step = 0;
+  wizardConf: Array<WizardStep>;
+
+  @Input() set _wizardConf(wizardConf: Array<WizardStep>) {
+    this.wizardConf = wizardConf;
+    this.step = this.wizardConf.length - 1;
+    this.buildForm();
+  }
+
+  orbsHidden = true;
+  step: number;
   trackId: number;
-  fieldConf = [
-    {
-      title: 'name',
-      instruction: 'Type a Name',
-      fields: [
-        {
-          name: 'name',
-          type: 'text',
-          validators: [
-            Validators.required,
-            (control: FormControl): { [key: string]: boolean } | null => {
-              const val = control.value;
-              console.log('test for andy = ' + val);
-              if (val !== 'andy') {
-                return { custom: true };
-              }
-              return null;
-            }
-          ]
-        }
-      ]
-    },
-    {
-      title: 'country_language',
-      instruction: 'Select the Country and Language',
-      fields: [
-        {
-          name: 'country',
-          type: 'optioned',
-          options: this.countries,
-          validators: [Validators.required]
-        },
-        {
-          name: 'language',
-          options: this.languages,
-          type: 'optioned',
-          validators: [Validators.required]
-        }
-      ]
-    },
-    {
-      title: 'dataset',
-      instruction: 'Configure the data source',
-      fields: [{ name: 'dataset', type: 'file', validators: [Validators.required] }]
-    },
-    {
-      title: 'progress',
-      instruction: 'Show the progress here'
-    }
-  ];
 
   constructor(private readonly http: HttpClient, private readonly fb: FormBuilder) {
     super();
+  }
 
+  buildForm(): void {
     this.formUpload = this.fb.group(
-      this.fieldConf
+      this.wizardConf
         .filter((conf) => {
           return !!conf.fields;
         })
         .reduce((map, conf: any) => {
-          let test = conf.fields.reduce((map, f: any) => {
-            let entry = [''];
-            if (f.validators) {
-              entry.push(f.validators);
-            }
-            map[f.name] = entry;
-            return map;
-          }, {});
+          let test = conf.fields
+            .filter((map) => !!map.name)
+            .reduce((map, f: any) => {
+              let entry = [''];
+              if (f.validators) {
+                entry.push(f.validators);
+              }
+              map[f.name] = entry;
+              return map;
+            }, {});
           return Object.assign(map, test);
         }, {})
     );
@@ -115,6 +63,7 @@ export class WizardComponent extends DataPollingComponent {
   }
 
   setStep(step: number): void {
+    this.orbsHidden = false;
     this.step = step;
   }
 
@@ -143,13 +92,15 @@ export class WizardComponent extends DataPollingComponent {
   }
 
   stepIsComplete(step: number): boolean {
-    if (!this.fieldConf[step].fields) {
+    if (!this.wizardConf[step].fields) {
       return !!this.trackId;
     }
-    return !this.fieldConf[step].fields.find((f: any) => {
-      let ctrl = this.formUpload.get(f.name);
-      return !ctrl.valid;
-    });
+    return !this.wizardConf[step].fields
+      .filter((f: any) => !!f.name)
+      .find((f: any) => {
+        let ctrl = this.formUpload.get(f.name);
+        return !ctrl.valid;
+      });
   }
 
   /** setPublicationFile
