@@ -31,24 +31,19 @@ select {
   &.next,
   &.previous {
     padding: 0;
-
-    &:hover {
-      background-color: $white;
-      color: $eu-jade-darkest;
-      text-shadow: -1px -1px 1px rgba(255, 255, 255, 0.1), 1px 1px 1px rgba(0, 0, 0, 0.5);
-    }
-    &:active {
-      border-color: $eu-jade-light;
-      //text-shadow: -1px -1px 1px rgb(113, 192, 123, 0.1), 1px 1px 1px rgb(25, 115, 36, 0.5);
-      text-shadow: -1px -1px 1px rgba(255, 255, 255, 0.1), 1px 1px 1px rgba(0, 0, 0, 0.5);
-    }
+    text-shadow: -1px -1px 1px rgba(255, 255, 255, 0.1), 1px 1px 1px rgba(0, 0, 0, 0.5);
     &::after {
       content: '\25B2';
       transform-origin: top;
     }
-    &:active {
-      color: $eu-light-orange;
-    }
+  }
+  &:hover {
+    background-color: $white;
+    color: $eu-jade-darker;
+  }
+  &:active {
+    border-color: $eu-light-orange;
+    color: $eu-light-orange;
   }
 
   &.next::after {
@@ -58,26 +53,22 @@ select {
   &.previous::after {
     left: -1.1rem;
     transform: rotate(270deg);
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.1), -1px -1px 1px rgba(0, 0, 0, 0.5);
   }
 
-  &[type='submit'] {
+  &[type='submit'],
+  &.submit {
     &:hover {
-      background-color: $eu-light-orange;
-      border-color: $eu-yellow;
+      box-shadow: rgba(25, 115, 36, 0.35) 0px 5px 15px;
       text-shadow: -1px -1px 1px rgba(255, 255, 255, 0.1), 1px 1px 1px rgba(0, 0, 0, 0.5);
     }
+
     &[disabled] {
       cursor: default;
       background: $gray-lighter;
       border-color: $gray-light;
       color: $gray-light;
       pointer-events: none;
-    }
-    &:active {
-      background-color: $white;
-      color: #053048;
-      border-color: $eu-jade-light;
-      text-shadow: -1px -1px 1px rgb(113, 192, 123, 0.1), 1px 1px 1px rgb(25, 115, 36, 0.5);
     }
   }
 }
@@ -107,10 +98,6 @@ select {
     top: 0.75em;
     padding-bottom: 0;
     position: relative;
-  }
-
-  .orb-status {
-    margin: 0;
   }
 }
 
@@ -149,9 +136,29 @@ select {
   transition: 0.3s ease-in border-radius;
 
   &::after {
-    content: ' ';
-    content: '\2714';
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23FFF' viewBox='0 0 24 24'%3E%3Cpath d='M20.285 2L9 13.567 3.714 8.556 0 12.272 9 21 24 5.715z'%3E%3C/path%3E%3C/svg%3E");
+    content: '';
+    font-size: 1.75rem;
+    left:4%;
+    top: 55%;
+    height: 90%;
+    width: 90%;
   }
+  &:hover::after {
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 24 24'%3E%3Cpath d='M20.285 2L9 13.567 3.714 8.556 0 12.272 9 21 24 5.715z'%3E%3C/path%3E%3C/svg%3E");
+  }
+  &:active{
+    background-color: $white;
+    border-color: $eu-light-orange;
+    &::after {
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fc8a62' viewBox='0 0 24 24'%3E%3Cpath d='M20.285 2L9 13.567 3.714 8.556 0 12.272 9 21 24 5.715z'%3E%3C/path%3E%3C/svg%3E");
+    }
+  }
+
+  //&:active.active::after {
+  //  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23FFF' viewBox='0 0 24 24'%3E%3Cpath d='M20.285 2L9 13.567 3.714 8.556 0 12.272 9 21 24 5.715z'%3E%3C/path%3E%3C/svg%3E");
+  //}
+
 }
 
 .orbs-hidden {
@@ -167,16 +174,20 @@ select {
   .progress-orb {
     flex-basis: 100%;
     text-align: center;
+  }
+}
 
-    .orb-status.labelled {
-      border-radius: 0;
-    }
+.orbs-hidden,
+.orb-square {
+  .progress-orb .orb-status.labelled {
+    border-radius: 0;
   }
 }
 
 .orb-status {
   background-color: $eu-jade-light;
   border-color: $eu-jade-dark;
+  margin: 0;
 
   &.labelled {
     border-radius: $wizard-border-radius;
@@ -189,6 +200,10 @@ select {
     }
   }
 
+  &.next {
+    margin-left: 0.25em;
+  }
+
   &:hover {
     background-color: $white;
     box-shadow: rgba(25, 115, 36, 0.35) 0px 5px 15px;
@@ -197,25 +212,33 @@ select {
   &::after {
     content: attr(data-label);
   }
-  /*
-  &::before {
-    color: $white;
-    content: attr(data-value);
-    font-size: 0.5em;
-    left: -1em;
-    position: absolute;
-    text-shadow: none;
-    top: -3em;
-    white-space: nowrap;
-  }
-  */
   &.isSet {
     background-color: $eu-light-orange;
-    border-color: $eu-yellow;
+    //border-color: $eu-yellow;
     border-color: $white;
+    &:active {
+      //border-color: $white;
+      color: $white;
+    }
   }
   &.active {
     border-width: 2px;
     border-color: $eu-yellow;
+  }
+  &:active {
+    border-color: $eu-light-orange;
+    color: $eu-light-orange;
+  }
+}
+
+.submit-track-id {
+  display: flex;
+  button {
+    margin-left: 0.5rem;
+    text-shadow: none;
+    white-space: nowrap;
+  }
+  input{
+    min-width: 0;
   }
 }

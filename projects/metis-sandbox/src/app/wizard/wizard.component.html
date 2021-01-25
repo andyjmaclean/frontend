@@ -1,6 +1,6 @@
 <form [formGroup]="formUpload" (ngSubmit)="onSubmitFormFile()">
   <div class="wizard">
-    <div class="wizard-head" [ngClass]="{ 'orbs-hidden': orbsHidden }">
+    <div class="wizard-head" [ngClass]="{ 'orbs-hidden': orbsHidden, 'orb-square': orbsSquare }">
       <ng-container *ngFor="let conf of wizardConf; let i = index">
         <label *ngIf="step === i">{{ conf.instruction }}</label>
       </ng-container>
@@ -53,23 +53,31 @@
 
         <ng-container *ngIf="conf.title === 'progress'">
           <ng-container *ngIf="btnSubmit.clicked">
-            <app-progress-tracker [showCtrls]="false"></app-progress-tracker>
+            <sb-progress-tracker [showCtrls]="false"></sb-progress-tracker>
           </ng-container>
-
-          <div class="form-group" *ngIf="!btnSubmit.clicked">
+          <div class="form-group" style="position:relative;">
             <label>Enter the id of the dataset to track </label>
-            <input />
+            <div class="submit-track-id">
+              <input formControlName="idToTrack" />
+              <button
+                class="submit"
+                [disabled]="!formUpload.value.idToTrack"
+                (click)="orbsSquare = !orbsSquare"
+              >
+                track id
+              </button>
+            </div>
           </div>
         </ng-container>
 
         <ng-container *ngIf="conf.title === 'harvest'">
-          <app-workflow-form-field-harvest [_form]="formUpload" [fileFormName]="fileFormName">
-          </app-workflow-form-field-harvest>
+          <sb-workflow-form-field-harvest [_form]="formUpload" [fileFormName]="fileFormName">
+          </sb-workflow-form-field-harvest>
         </ng-container>
       </div>
 
       <div class="buttons">
-        <ng-container *ngIf="!btnSubmit.clicked && wizardConf[step].title === 'progress'">
+        <ng-container *ngIf="wizardConf[step].title === 'progress'">
           <label class="inline-text">Or <a (click)="setStep(0)">create a new dataset</a></label>
         </ng-container>
         <button

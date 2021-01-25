@@ -7,7 +7,7 @@ import { testDatasetInfo } from './_mocked';
 import { WizardStep } from './_models';
 
 @Component({
-  selector: 'app-root',
+  selector: 'sb-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
@@ -103,7 +103,8 @@ export class AppComponent {
     },
     {
       title: 'progress',
-      instruction: 'Track Data Processing'
+      instruction: 'Track Data Processing',
+      fields: [{ name: 'idToTrack' }]
     }
   ] as Array<WizardStep>;
 }

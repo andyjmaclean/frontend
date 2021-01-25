@@ -2,6 +2,9 @@
 
 $bc-color: $eu-jade;
 
+.progress-title {
+  color: $eu-jade-dark;
+}
 .form {
   background-color: $bc-color;
   border-radius: 1.5em;
@@ -42,10 +45,14 @@ $bc-color: $eu-jade;
   padding: 0 2em;
   overflow: hidden;
 }
+
+sb-progress-tracker{
+  margin: 2em;
+}
 .segments {
   display: flex;
   flex-direction: row;
-  margin: 3em 1em;
+  margin: 3em 0;
   position: relative;
 
   &.stacked {

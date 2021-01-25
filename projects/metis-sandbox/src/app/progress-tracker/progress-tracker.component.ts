@@ -5,7 +5,7 @@ import { DatasetInfo, ProgressByStep, PercentageClassInfo } from '../_models';
 import { testDatasetInfo } from '../_mocked';
 
 @Component({
-  selector: 'app-progress-tracker',
+  selector: 'sb-progress-tracker',
   templateUrl: './progress-tracker.component.html',
   styleUrls: ['./progress-tracker.component.scss']
 })

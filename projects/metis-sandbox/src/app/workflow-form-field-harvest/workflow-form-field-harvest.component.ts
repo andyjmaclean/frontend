@@ -20,7 +20,7 @@ export function harvestValidator(control: AbstractControl): ValidationErrors | n
 }
 
 @Component({
-  selector: 'app-workflow-form-field-harvest',
+  selector: 'sb-workflow-form-field-harvest',
   templateUrl: './workflow-form-field-harvest.component.html',
   styleUrls: ['./workflow-form-field-harvest.component.scss']
 })

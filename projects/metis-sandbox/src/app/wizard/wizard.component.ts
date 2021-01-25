@@ -10,7 +10,7 @@ import { DataPollingComponent } from 'projects/tools/src/public-api';
 import { SubmissionResponseData, WizardStep } from '../_models';
 
 @Component({
-  selector: 'app-wizard',
+  selector: 'sb-wizard',
   templateUrl: './wizard.component.html',
   styleUrls: ['./wizard.component.scss']
 })
@@ -27,6 +27,7 @@ export class WizardComponent extends DataPollingComponent {
   }
 
   orbsHidden = true;
+  orbsSquare = false;
   step: number;
   trackId: number;
 
@@ -92,14 +93,14 @@ export class WizardComponent extends DataPollingComponent {
   }
 
   stepIsComplete(step: number): boolean {
-    if (!this.wizardConf[step].fields) {
+
+    if (this.wizardConf[step].title==='progress') {
       return !!this.trackId;
     }
     return !this.wizardConf[step].fields
-      .filter((f: any) => !!f.name)
-      .find((f: any) => {
-        let ctrl = this.formUpload.get(f.name);
-        return !ctrl.valid;
+      .filter((f: {name: string}) => !!f.name)
+      .find((f: {name: string}) => {
+        return !this.formUpload.get(f.name).valid;
       });
   }
 
