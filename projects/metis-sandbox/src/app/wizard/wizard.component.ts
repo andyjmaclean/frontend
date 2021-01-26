@@ -93,13 +93,12 @@ export class WizardComponent extends DataPollingComponent {
   }
 
   stepIsComplete(step: number): boolean {
-
-    if (this.wizardConf[step].title==='progress') {
+    if (this.wizardConf[step].title === 'progress') {
       return !!this.trackId;
     }
     return !this.wizardConf[step].fields
-      .filter((f: {name: string}) => !!f.name)
-      .find((f: {name: string}) => {
+      .filter((f: { name: string }) => !!f.name)
+      .find((f: { name: string }) => {
         return !this.formUpload.get(f.name).valid;
       });
   }

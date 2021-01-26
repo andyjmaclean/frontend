@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { FileUploadComponent } from 'projects/tools/src/public-api';
 import { WizardComponent } from './wizard.component';
 
@@ -18,6 +18,11 @@ describe('WizardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WizardComponent);
     component = fixture.componentInstance;
+    component._wizardConf = [{
+      title: '',
+      instruction: '',
+      fields:[]
+    }];
     fixture.detectChanges();
   });
 

@@ -136,29 +136,28 @@ select {
   transition: 0.3s ease-in border-radius;
 
   &::after {
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23FFF' viewBox='0 0 24 24'%3E%3Cpath d='M20.285 2L9 13.567 3.714 8.556 0 12.272 9 21 24 5.715z'%3E%3C/path%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23FFF' viewBox='0 0 24 24'%3E%3Cpath d='M20.285 2L9 13.567 3.714 8.556 0 12.272 9 21 24 5.715z'%3E%3C/path%3E%3C/svg%3E");
     content: '';
     font-size: 1.75rem;
-    left:4%;
+    left: 4%;
     top: 55%;
     height: 90%;
     width: 90%;
   }
   &:hover::after {
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 24 24'%3E%3Cpath d='M20.285 2L9 13.567 3.714 8.556 0 12.272 9 21 24 5.715z'%3E%3C/path%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 24 24'%3E%3Cpath d='M20.285 2L9 13.567 3.714 8.556 0 12.272 9 21 24 5.715z'%3E%3C/path%3E%3C/svg%3E");
   }
-  &:active{
+  &:active {
     background-color: $white;
     border-color: $eu-light-orange;
     &::after {
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fc8a62' viewBox='0 0 24 24'%3E%3Cpath d='M20.285 2L9 13.567 3.714 8.556 0 12.272 9 21 24 5.715z'%3E%3C/path%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fc8a62' viewBox='0 0 24 24'%3E%3Cpath d='M20.285 2L9 13.567 3.714 8.556 0 12.272 9 21 24 5.715z'%3E%3C/path%3E%3C/svg%3E");
     }
   }
 
   //&:active.active::after {
   //  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23FFF' viewBox='0 0 24 24'%3E%3Cpath d='M20.285 2L9 13.567 3.714 8.556 0 12.272 9 21 24 5.715z'%3E%3C/path%3E%3C/svg%3E");
   //}
-
 }
 
 .orbs-hidden {
@@ -238,7 +237,7 @@ select {
     text-shadow: none;
     white-space: nowrap;
   }
-  input{
+  input {
     min-width: 0;
   }
 }
